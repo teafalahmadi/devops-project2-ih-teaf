@@ -25,3 +25,9 @@ teafp2.pub
 .vscode/
 .idea/
 *.swp
+
+
+infra/terraform/tfplan
+infra/terraform/tfplan.binary
+infra/terraform/.terraform/
+infra/terraform/*.tfstate*
