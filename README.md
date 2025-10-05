@@ -166,7 +166,7 @@ The backend requires the following environment variables (defined in `environmen
 #### Application Configuration
 - `SPRING_PROFILES_ACTIVE`: Active Spring profile
   - `docker`: Uses PostgreSQL configuration
-  - `default`: Uses Azure SQL configuration
+  - `azure`: Uses Azure SQL configuration
 - `SERVER_PORT`: Server port (default: 8080)
 - `CORS_ALLOWED_ORIGINS`: Comma-separated list of allowed CORS origins
 
@@ -183,7 +183,7 @@ DB_PASSWORD=YourStrong!Passw0rd
 DB_DRIVER=org.postgresql.Driver
 
 # For Azure SQL Production
-SPRING_PROFILES_ACTIVE=default
+SPRING_PROFILES_ACTIVE=azure
 DB_HOST=your-server.database.windows.net
 DB_PORT=1433
 DB_NAME=burgerbuilder
@@ -245,7 +245,7 @@ docker run -p 8080:8080 --env-file environment.env burger-builder-backend
 3. Run with Docker Compose or local PostgreSQL
 
 **Production (Azure SQL)**:
-1. Set `SPRING_PROFILES_ACTIVE=default`
+1. Set `SPRING_PROFILES_ACTIVE=azure`
 2. Configure Azure SQL connection variables
 3. Deploy to cloud platform with proper security configuration
 
