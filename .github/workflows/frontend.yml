@@ -1,4 +1,4 @@
-name: Infra — Terraform Plan (and optional Apply)
+name: Frontend — Build name: Infra — Terraform Plan (and optional Apply) Deploy
 
 on:
   workflow_dispatch:
