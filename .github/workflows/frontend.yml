@@ -1,70 +1,37 @@
-name: Frontend — Build name: Infra — Terraform Plan (and optional Apply) Deploy
+# .github/workflows/frontend.yml
+name: Frontend — Build & Upload
 
 on:
   workflow_dispatch:
-  pull_request:
-    branches: [ main ]
+  push:
+    paths:
+      - 'apps/frontend/**'
+      - '.github/workflows/frontend.yml'
 
 permissions:
   contents: read
 
 jobs:
-  terraform:
-    name: Terraform Plan
+  build:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: infra/terraform
+        working-directory: apps/frontend
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v3
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          terraform_version: 1.9.6
-          terraform_wrapper: false
+          node-version: 18
+          cache: npm
 
-      - name: Terraform fmt (auto-fix)
-        run: |
-          terraform fmt -recursive
-          terraform fmt -check
+      - name: Install deps
+        run: npm ci
 
-      - name: Terraform init
-        run: terraform init -input=false -reconfigure -upgrade
-        env:
-          ARM_CLIENT_ID:        ${{ secrets.ARM_CLIENT_ID }}
-          ARM_CLIENT_SECRET:    ${{ secrets.ARM_CLIENT_SECRET }}
-          ARM_SUBSCRIPTION_ID:  ${{ secrets.ARM_SUBSCRIPTION_ID }}
-          ARM_TENANT_ID:        ${{ secrets.ARM_TENANT_ID }}
-          ARM_USE_MSI:          false
-          ARM_SKIP_PROVIDER_REGISTRATION: true
+      - name: Build (Vite)
+        run: npm run build
 
-      - name: Terraform validate
-        run: terraform validate
-        env:
-          ARM_CLIENT_ID:        ${{ secrets.ARM_CLIENT_ID }}
-          ARM_CLIENT_SECRET:    ${{ secrets.ARM_CLIENT_SECRET }}
-          ARM_SUBSCRIPTION_ID:  ${{ secrets.ARM_SUBSCRIPTION_ID }}
-          ARM_TENANT_ID:        ${{ secrets.ARM_TENANT_ID }}
-
-      - name: Terraform plan
-        id: plan
-        run: terraform plan -no-color -out=tfplan.binary
-        env:
-          ARM_CLIENT_ID:        ${{ secrets.ARM_CLIENT_ID }}
-          ARM_CLIENT_SECRET:    ${{ secrets.ARM_CLIENT_SECRET }}
-          ARM_SUBSCRIPTION_ID:  ${{ secrets.ARM_SUBSCRIPTION_ID }}
-          ARM_TENANT_ID:        ${{ secrets.ARM_TENANT_ID }}
-          ARM_USE_MSI:          false
-          # تمرير المتغيرات الحساسة
-          TF_VAR_admin_ssh_pubkey:    ${{ vars.TF_VAR_admin_ssh_pubkey }}
-          TF_VAR_sql_admin_password:  ${{ secrets.TF_VAR_sql_admin_password }}
-
-      - name: Upload plan
-        uses: actions/upload-artifact@v4
-        with:
-          name: tfplan
-          path: infra/terraform/tfplan.binary
-
+      - name: Upload dist artifa
