@@ -1,9 +1,7 @@
-# main.tf
-
 # Resource Group
 resource "azurerm_resource_group" "rg" {
   name     = "project2-teaf"
-  location = "Italy North"    # غيّرها لو تبغى منطقة ثانية (مثلاً: East US)
+  location = var.location
   tags = {
     project = "devops-project2-ih"
     env     = "dev"
@@ -19,7 +17,7 @@ resource "azurerm_virtual_network" "vnet" {
   tags                = azurerm_resource_group.rg.tags
 }
 
-# Subnet: Web
+# Subnets
 resource "azurerm_subnet" "web_subnet" {
   name                 = "web-subnet"
   resource_group_name  = azurerm_resource_group.rg.name
@@ -27,7 +25,6 @@ resource "azurerm_subnet" "web_subnet" {
   address_prefixes     = ["10.0.1.0/24"]
 }
 
-# Subnet: API
 resource "azurerm_subnet" "api_subnet" {
   name                 = "api-subnet"
   resource_group_name  = azurerm_resource_group.rg.name
@@ -35,10 +32,17 @@ resource "azurerm_subnet" "api_subnet" {
   address_prefixes     = ["10.0.2.0/24"]
 }
 
-# Subnet: DB
 resource "azurerm_subnet" "db_subnet" {
   name                 = "db-subnet"
   resource_group_name  = azurerm_resource_group.rg.name
   virtual_network_name = azurerm_virtual_network.vnet.name
   address_prefixes     = ["10.0.3.0/24"]
+}
+
+# App Gateway subnet (missing one)
+resource "azurerm_subnet" "snet_appgw" {
+  name                 = "appgw-subnet"
+  resource_group_name  = azurerm_resource_group.rg.name
+  virtual_network_name = azurerm_virtual_network.vnet.name
+  address_prefixes     = ["10.0.4.0/24"]
 }
