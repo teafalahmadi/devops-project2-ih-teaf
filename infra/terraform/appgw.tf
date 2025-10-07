@@ -36,22 +36,56 @@ resource "azurerm_application_gateway" "agw" {
     public_ip_address_id = azurerm_public_ip.agw_pip.id
   }
 
-
   frontend_port {
     name = "frontend-port"
     port = 80
   }
 
   backend_address_pool {
-    name = "backend-pool"
+    name         = "frontend-pool"
+    ip_addresses = ["10.0.1.4"]
+  }
+
+  backend_address_pool {
+    name         = "backend-pool"
+    ip_addresses = ["10.0.2.5"]
   }
 
   backend_http_settings {
-    name                  = "http-settings"
-    cookie_based_affinity = "Disabled"
+    name                  = "frontend-http-settings"
     port                  = 80
     protocol              = "Http"
+    cookie_based_affinity = "Disabled"
     request_timeout       = 20
+  }
+
+  backend_http_settings {
+    name                  = "backend-http-settings"
+    port                  = 8080
+    protocol              = "Http"
+    cookie_based_affinity = "Disabled"
+    request_timeout       = 20
+    probe_name            = "backend-probe"
+  }
+
+  probe {
+    name                                      = "frontend-probe"
+    protocol                                  = "Http"
+    path                                      = "/"
+    interval                                  = 30
+    timeout                                   = 30
+    unhealthy_threshold                       = 3
+    pick_host_name_from_backend_http_settings = true
+  }
+
+  probe {
+    name                                      = "backend-probe"
+    protocol                                  = "Http"
+    path                                      = "/api/health"
+    interval                                  = 30
+    timeout                                   = 30
+    unhealthy_threshold                       = 3
+    pick_host_name_from_backend_http_settings = true
   }
 
   http_listener {
@@ -61,12 +95,25 @@ resource "azurerm_application_gateway" "agw" {
     protocol                       = "Http"
   }
 
+  url_path_map {
+    name = "path-map"
+
+    default_backend_address_pool_name  = "frontend-pool"
+    default_backend_http_settings_name = "frontend-http-settings"
+
+    path_rule {
+      name                       = "api-path"
+      paths                      = ["/api/*"]
+      backend_address_pool_name  = "backend-pool"
+      backend_http_settings_name = "backend-http-settings"
+    }
+  }
+
   request_routing_rule {
-    name                       = "rule1"
-    rule_type                  = "Basic"
-    http_listener_name         = "http-listener"
-    backend_address_pool_name  = "backend-pool"
-    backend_http_settings_name = "http-settings"
-    priority                   = 100
+    name               = "path-rule"
+    rule_type          = "PathBasedRouting"
+    http_listener_name = "http-listener"
+    url_path_map_name  = "path-map"
+    priority           = 100
   }
 }

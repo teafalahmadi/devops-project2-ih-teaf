@@ -36,3 +36,13 @@ variable "ops_ip" {
   type        = string
   default     = "10.0.5.4"
 }
+variable "dockerhub_user" {
+  description = "Docker Hub username"
+  type        = string
+}
+
+variable "dockerhub_token" {
+  description = "Docker Hub access token"
+  type        = string
+  sensitive   = true
+}
