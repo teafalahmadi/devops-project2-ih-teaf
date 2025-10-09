@@ -8,9 +8,9 @@ resource "azurerm_mssql_server" "sql" {
 }
 
 resource "azurerm_mssql_database" "sqldb" {
-  name           = "teafdb"
-  server_id      = azurerm_mssql_server.sql.id
-  sku_name       = "S0"
-  max_size_gb    = 5
+  name                 = "teafdb"
+  server_id            = azurerm_mssql_server.sql.id
+  sku_name             = "S0"
+  max_size_gb          = 5
   storage_account_type = "Local"
 }
