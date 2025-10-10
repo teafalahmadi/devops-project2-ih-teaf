@@ -13,11 +13,10 @@ spec:
       labels:
         app: backend
     spec:
-      imagePullSecrets:
-        - name: acr-secret
       containers:
         - name: backend
-          image: talalalredaacr.azurecr.io/backendimage:latest
+          image: docker.io/talalalreda/backendimage:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 8080
           env:

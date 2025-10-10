@@ -14,6 +14,3 @@ variable "subnet_id" {
   type        = string
 }
 
-variable "acr_name" {
-  type        = string
-}

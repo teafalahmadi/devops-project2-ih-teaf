@@ -12,14 +12,6 @@ module "network" {
   prefix              = var.prefix
 }
 
-# ACR
-module "acr" {
-  source              = "./modules/acr"
-  resource_group_name = azurerm_resource_group.main.name
-  location            = var.location
-  prefix              = var.prefix
-}
-
 # AKS
 module "aks" {
   source              = "./modules/aks"
@@ -27,7 +19,6 @@ module "aks" {
   location            = var.location
   prefix              = var.prefix
   subnet_id           = module.network.aks_subnet_id
-  acr_name            = module.acr.name
 }
 
 # Monitoring
