@@ -1,0 +1,48 @@
+name: CI/CD Workflow
+
+
+on:
+
+  push:
+
+    branches:
+
+      - main  # يشتغل كل مرة تعملين push على main
+
+
+jobs:
+
+  deploy:
+
+    runs-on: ubuntu-latest
+
+
+    steps:
+
+      - name: Checkout repository
+
+        uses: actions/checkout@v4
+
+
+      - name: SSH to Azure VM and deploy
+
+        uses: appleboy/ssh-action@v1.1.0
+
+        with:
+
+          host: ${{ secrets.VM_HOST }}
+
+          username: ${{ secrets.VM_USER }}
+
+          key: ${{ secrets.VM_SSH_KEY }}
+
+          script: |
+
+            cd ~/devops-project2-ih-teaf
+
+            git pull origin main
+
+            docker compose down
+
+            docker compose up -d --build
+
