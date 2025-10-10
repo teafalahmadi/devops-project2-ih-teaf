@@ -16,7 +16,7 @@ jobs:
           echo "🧠 Checking installed versions..."
           git --version
           docker --version
-          docker compose version
+          docker-compose --version
           node -v || echo "Node not installed"
           npm -v || echo "NPM not installed"
           mvn -v || echo "Maven not installed"
@@ -48,8 +48,8 @@ jobs:
       - name: Deploy using Docker Compose
         run: |
           echo "🚀 Starting deployment on self-hosted VM..."
-          docker compose down
-          docker compose up -d --build
+          docker-compose down
+          docker-compose up -d --build
           docker ps
 
       - name: Healthcheck
