@@ -1,56 +1,106 @@
 
 version: "3.9"
 
+
 services:
+
   database:
+
     image: postgres:16
+
     environment:
+
       POSTGRES_DB: burgerbuilder
+
       POSTGRES_USER: postgres
+
       POSTGRES_PASSWORD: YourStrong!Passw0rd
+
     ports:
+
       - "5432:5432"
+
     volumes:
+
       - pgdata:/var/lib/postgresql/data
+
       - ./backend/src/main/resources/schema-postgresql.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+
       - ./backend/src/main/resources/data-postgresql.sql:/docker-entrypoint-initdb.d/02-data.sql:ro
+
     healthcheck:
+
       test: ["CMD-SHELL", "pg_isready -U postgres -d burgerbuilder"]
+
       interval: 5s
+
       timeout: 5s
+
       retries: 20
 
+
   backend:
+
     build:
+
       context: ./backend
+
     # Optionally tag the image for pushing to a registry
+
     image: burgerbuilder-backend:local
+
     environment:
+
       SPRING_PROFILES_ACTIVE: docker
+
       DB_HOST: database
+
       DB_PORT: "5432"
+
       DB_NAME: burgerbuilder
+
       DB_USERNAME: postgres
+
       DB_PASSWORD: YourStrong!Passw0rd
+
       DB_DRIVER: org.postgresql.Driver
+
     ports:
+
       - "8080:8080"
+
     depends_on:
+
       database:
+
         condition: service_healthy
 
+
   frontend:
+
     build:
+
       context: ./frontend
+
     # Optionally tag the image for pushing to a registry
+
     image: burgerbuilder-frontend:local
+
     environment:
+
       VITE_API_BASE_URL: http://172.213.216.94
+
     command: ["npm", "run", "dev", "--", "--host", "0.0.0.0", "--port", "5173"]
+
     ports:
+
       - "5173:5173"
+
     depends_on:
+
       - backend
 
+
 volumes:
+
   pgdata:
