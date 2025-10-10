@@ -16,7 +16,7 @@ jobs:
           echo "🧠 Checking installed versions..."
           git --version
           docker --version
-          docker-compose --version
+          docker compose version
           node -v || echo "Node not installed"
           npm -v || echo "NPM not installed"
           mvn -v || echo "Maven not installed"
@@ -45,11 +45,15 @@ jobs:
           npm ci
           npm run build
 
-      - name: Deploy locally on self-hosted runner
+      - name: Deploy using Docker Compose
         run: |
-          echo "🚀 Running deployment locally on the VM..."
-          cd ~/devops-project2-ih-teaf
-          docker-compose down
-          git pull origin main
-          docker-compose up -d --build
+          echo "🚀 Starting deployment on self-hosted VM..."
+          docker compose down
+          docker compose up -d --build
           docker ps
+
+      - name: Healthcheck
+        run: |
+          echo "🔍 Checking service health..."
+          curl -f http://localhost:8080/actuator/health || echo "Backend not responding"
+          curl -f http://localhost:5173 || echo "Frontend not responding"
