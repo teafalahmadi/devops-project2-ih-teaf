@@ -21,12 +21,28 @@ jobs:
           npm -v || echo "❌ npm not found"
           mvn -v || echo "❌ maven not found"
 
+            - name: Setup Java 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
       - name: Build backend
         working-directory: backend
         run: |
           echo "🚀 Building backend..."
           mvn clean package -DskipTests
 
+
       - name: Build frontend
         working-directory: frontend
-        run:
+        run: |
+          echo "🧱 Building frontend..."
+          npm install
+          npm run build
+
+      - name: Deploy containers
+        run: |
+          echo "🐳 Starting Docker Compose..."
+          docker-compose down
+          docker-compose up -d --build
