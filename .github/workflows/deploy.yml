@@ -7,7 +7,7 @@ on:
 
     branches:
 
-      - main  # يشتغل كل مرة تعملين push على main
+      - main
 
 
 jobs:
