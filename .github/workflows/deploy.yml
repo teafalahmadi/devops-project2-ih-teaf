@@ -1,7 +1,7 @@
 name: Manual Deploy on Self-Hosted Runner
 
 on:
-  workflow_dispatch: # تشغيل يدوي من GitHub Actions
+  workflow_dispatch:
 
 jobs:
   deploy:
@@ -33,11 +33,16 @@ jobs:
           echo "🚀 Building backend..."
           mvn clean package -DskipTests
 
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
       - name: Build frontend
         working-directory: frontend
         run: |
           echo "⚙️ Building frontend..."
-          npm install
+          npm ci
           npm run build
 
       - name: Deploy to VM
