@@ -1,7 +1,7 @@
 name: Manual Deploy on Self-Hosted Runner
 
 on:
-  workflow_dispatch:
+  workflow_dispatch: # تشغيل يدوي من GitHub Actions
 
 jobs:
   deploy:
@@ -45,20 +45,11 @@ jobs:
           npm ci
           npm run build
 
-      - name: Deploy to VM
-        env:
-          VM_HOST: ${{ secrets.VM_HOST }}
-          VM_USER: ${{ secrets.VM_USER }}
-          VM_SSH_KEY: ${{ secrets.VM_SSH_KEY }}
+      - name: Deploy locally on self-hosted runner
         run: |
-          echo "🚀 Connecting to VM and deploying containers..."
-          echo "$VM_SSH_KEY" > private_key.pem
-          chmod 600 private_key.pem
-          ssh -o StrictHostKeyChecking=no -i private_key.pem $VM_USER@$VM_HOST << 'EOF'
-            cd ~/devops-project2-ih-teaf
-            docker-compose down
-            git pull origin main
-            docker-compose up -d --build
-            docker ps
-          EOF
-          rm private_key.pem
+          echo "🚀 Running deployment locally on the VM..."
+          cd ~/devops-project2-ih-teaf
+          docker-compose down
+          git pull origin main
+          docker-compose up -d --build
+          docker ps
