@@ -1,55 +1,55 @@
-version: "3.9"
+name: Manual Deploy on Self-Hosted Runner
 
-services:
-  database:
-    image: postgres:16
-    environment:
-      POSTGRES_DB: burgerbuilder
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: YourStrong!Passw0rd
-    ports:
-      - "5432:5432"
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-      - ./backend/src/main/resources/schema-postgresql.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
-      - ./backend/src/main/resources/data-postgresql.sql:/docker-entrypoint-initdb.d/02-data.sql:ro
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d burgerbuilder"]
-      interval: 5s
-      timeout: 5s
-      retries: 20
+on:
+  workflow_dispatch: # تشغيل يدوي من GitHub Actions
 
-  backend:
-    build:
-      context: ./backend
-    # Optionally tag the image for pushing to a registry
-    image: burgerbuilder-backend:local
-    environment:
-      SPRING_PROFILES_ACTIVE: docker
-      DB_HOST: database
-      DB_PORT: "5432"
-      DB_NAME: burgerbuilder
-      DB_USERNAME: postgres
-      DB_PASSWORD: YourStrong!Passw0rd
-      DB_DRIVER: org.postgresql.Driver
-    ports:
-      - "8080:8080"
-    depends_on:
-      database:
-        condition: service_healthy
+jobs:
+  deploy:
+    runs-on: self-hosted
 
-  frontend:
-    build:
-      context: ./frontend
-    # Optionally tag the image for pushing to a registry
-    image: burgerbuilder-frontend:local
-    environment:
-      VITE_API_BASE_URL: http://localhost:8080
-    command: ["npm", "run", "dev", "--", "--host", "0.0.0.0", "--port", "5173"]
-    ports:
-      - "5173:5173"
-    depends_on:
-      - backend
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-volumes:
-  pgdata:
+      - name: Check environment versions
+        run: |
+          echo "🧠 Checking installed versions..."
+          git --version
+          docker --version
+          docker-compose --version
+          node -v || echo "Node not installed"
+          npm -v || echo "NPM not installed"
+          mvn -v || echo "Maven not installed"
+
+      - name: Setup Java 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Build backend
+        working-directory: backend
+        run: |
+          echo "🚀 Building backend..."
+          mvn clean package -DskipTests
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Build frontend
+        working-directory: frontend
+        run: |
+          echo "⚙️ Building frontend..."
+          npm ci
+          npm run build
+
+      - name: Deploy locally on self-hosted runner
+        run: |
+          echo "🚀 Running deployment locally on the VM..."
+          cd ~/devops-project2-ih-teaf
+          docker-compose down
+          git pull origin main
+          docker-compose up -d --build
+          docker ps
