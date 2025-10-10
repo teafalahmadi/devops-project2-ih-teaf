@@ -1,48 +1,32 @@
-name: CI/CD Workflow
-
+name: Manual Deploy on Self-Hosted Runner
 
 on:
-
-  push:
-
-    branches:
-
-      - main
-
+  workflow_dispatch:   # تشغيل يدوي من GitHub Actions
 
 jobs:
-
   deploy:
-
     runs-on: self-hosted
 
-
     steps:
-
       - name: Checkout repository
-
         uses: actions/checkout@v4
 
+      - name: Check environment versions
+        run: |
+          echo "🔍 Checking installed tools..."
+          git --version || echo "❌ git not found"
+          docker --version || echo "❌ docker not found"
+          docker-compose --version || echo "❌ docker-compose not found"
+          node -v || echo "❌ node not found"
+          npm -v || echo "❌ npm not found"
+          mvn -v || echo "❌ maven not found"
 
-      - name: SSH to Azure VM and deploy
+      - name: Build backend
+        working-directory: backend
+        run: |
+          echo "🚀 Building backend..."
+          mvn clean package -DskipTests
 
-        uses: appleboy/ssh-action@v1.1.0
-
-        with:
-
-          host: ${{ secrets.VM_HOST }}
-
-          username: ${{ secrets.VM_USER }}
-
-          key: ${{ secrets.VM_SSH_KEY }}
-
-          script: |
-
-            cd ~/devops-project2-ih-teaf
-
-            git pull origin main
-
-            docker compose down
-
-            docker compose up -d --build
-
+      - name: Build frontend
+        working-directory: frontend
+        run:
