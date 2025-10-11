@@ -106,9 +106,10 @@ devops-project2-ih-teaf/
 🧭 The structure cleanly separates Infrastructure, Application, and Automation,
 following modern DevOps best practices.
 
+---
+
 📸 Architecture Overview
-text
-نسخ الكود
+
 [ Internet ]
      │
      ▼
