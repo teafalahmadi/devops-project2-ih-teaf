@@ -77,7 +77,7 @@ devops-project2-ih-teaf/
 ├── backend/                       # Backend API service (Java / Maven)
 │   ├── Dockerfile
 │   ├── .env.save
-│   
+│
 ├── frontend/                      # Frontend web app (React + Vite)
 │   ├── Dockerfile
 │   ├── .env.save
@@ -103,13 +103,12 @@ devops-project2-ih-teaf/
 ├── environment.env.example         # Example environment file
 ├── .gitignore                      # Git ignore list
 └── README.md                       # Documentation
-🧭 The structure cleanly separates Infrastructure, Application, and Automation, following modern DevOps best practices.
+🧭 The structure cleanly separates Infrastructure, Application, and Automation,
+following modern DevOps best practices.
 
----
-
-## 📸 Architecture Overview
-
-```bash
+📸 Architecture Overview
+text
+نسخ الكود
 [ Internet ]
      │
      ▼
@@ -120,12 +119,10 @@ devops-project2-ih-teaf/
  ├── Frontend (React)
  ├── Backend (Java API)
  └── PostgreSQL Database (Private Endpoint)
-All components live inside an Azure VNet for complete isolation and monitored through Azure Monitor.
+All components live inside an Azure VNet for complete isolation
+and are monitored through Azure Monitor.
 
----
-
-## 🌟 Key Highlights
-
+🌟 Key Highlights
 ✅ Full 3-Tier Architecture (Frontend, Backend, Database)
 ✅ Private Networking with Secure Access
 ✅ Automated Infrastructure (Terraform)
@@ -133,24 +130,19 @@ All components live inside an Azure VNet for complete isolation and monitored th
 ✅ End-to-End CI/CD (GitHub Actions)
 ✅ Real-World Cloud Implementation (Azure)
 
----
+🧠 Tech Stack
+Category	Tools
+☁️ Cloud	Microsoft Azure
+🏗️ IaC	Terraform
+🐳 Containers	Docker, Docker Compose
+⚙️ CI/CD	GitHub Actions
+💻 Frontend	React + Vite
+🔧 Backend	Java (Maven) / Node.js
+🗄️ Database	PostgreSQL / Azure SQL
+🔒 Security	Private Subnet + WAF v2
+📊 Monitoring	Azure Monitor + Application Insights
 
-## 🧠 Tech Stack
-Category   	    Tools
-☁️ Cloud  	    Microsoft Azure
-🏗️ IaC	        Terraform
-🐳 Containers 	Docker, Docker Compose
-⚙️ CI/CD	      GitHub Actions
-💻 Frontend	    React + Vite
-🔧 Backend	    Java (Maven) / Node.js
-🗄️ Database	    PostgreSQL / Azure SQL
-🔒 Security	    Private Subnet + WAF v2
-📊 Monitoring	  Azure Monitor + Application Insights
-
----
-
-## 👩🏻‍💻 About the Developer
+👩🏻‍💻 About the Developer
 👤 Teaf Alahmadi
-Cloud & DevOps Engineer | Azure Enthusiast 
----
-## ✨ “Automate everything, deploy securely, and keep learning!” 🚀
+Cloud & DevOps Engineer | Azure Enthusiast
+
