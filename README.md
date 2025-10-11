@@ -117,14 +117,16 @@ following modern DevOps best practices.
 All components live inside an Azure VNet for complete isolation
 and are monitored through Azure Monitor.
 
+
 ## 🌟 Key Highlights
 
-✅ Full 3-Tier Architecture (Frontend, Backend, Database)
-✅ Private Networking with Secure Access
-✅ Automated Infrastructure (Terraform)
-✅ Containerized Application (Docker)
-✅ End-to-End CI/CD (GitHub Actions)
+✅ Full 3-Tier Architecture (Frontend, Backend, Database)  
+✅ Private Networking with Secure Access  
+✅ Automated Infrastructure (Terraform)  
+✅ Containerized Application (Docker)  
+✅ End-to-End CI/CD (GitHub Actions)  
 ✅ Real-World Cloud Implementation (Azure)
+
 
 ## 🧠 Tech Stack
 
@@ -141,7 +143,7 @@ and are monitored through Azure Monitor.
 | 📊 **Monitoring** | Azure Monitor + Application Insights |
 
 ## 👩🏻‍💻 About the Developer
-👤 Teaf Alahmadi
+👤 Teaf Alahmadi  
 Cloud & DevOps Engineer | Azure Enthusiast
 
 ## ✨ “Automate everything, deploy securely, and keep learning!” 🚀
