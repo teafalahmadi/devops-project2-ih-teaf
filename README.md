@@ -108,8 +108,9 @@ following modern DevOps best practices.
 
 ---
 
-📸 Architecture Overview
+## 📸 Architecture Overview
 
+```text
 [ Internet ]
      │
      ▼
