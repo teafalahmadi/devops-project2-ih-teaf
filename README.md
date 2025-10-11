@@ -127,21 +127,23 @@ and are monitored through Azure Monitor.
 ✅ Real-World Cloud Implementation (Azure)
 
 ## 🧠 Tech Stack
-Category           	Tools
-☁️ Cloud        	Microsoft Azure
-🏗️ IaC	          Terraform
-🐳 Containers   	Docker, Docker Compose
-⚙️ CI/CD	        GitHub Actions
-💻 Frontend      	React + Vite
-🔧 Backend	      Java (Maven) / Node.js
-🗄️ Database     	PostgreSQL / Azure SQL
-🔒 Security	      Private Subnet + WAF v2
-📊 Monitoring   	Azure Monitor + Application Insights
+
+| Category | Tools |
+|-----------|--------|
+| ☁️ **Cloud** | Microsoft Azure |
+| 🏗️ **IaC** | Terraform |
+| 🐳 **Containers** | Docker, Docker Compose |
+| ⚙️ **CI/CD** | GitHub Actions |
+| 💻 **Frontend** | React + Vite |
+| 🔧 **Backend** | Java (Maven) / Node.js |
+| 🗄️ **Database** | PostgreSQL / Azure SQL |
+| 🔒 **Security** | Private Subnet + WAF v2 |
+| 📊 **Monitoring** | Azure Monitor + Application Insights |
 
 ## 👩🏻‍💻 About the Developer
 👤 Teaf Alahmadi
 Cloud & DevOps Engineer | Azure Enthusiast
 
-✨ “Automate everything, deploy securely, and keep learning!” 🚀
+## ✨ “Automate everything, deploy securely, and keep learning!” 🚀
 
 
