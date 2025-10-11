@@ -104,3 +104,51 @@ devops-project2-ih-teaf/
 ├── .gitignore                      # Git ignore list
 └── README.md                       # Documentation
 🧭 The structure cleanly separates Infrastructure, Application, and Automation, following modern DevOps best practices.
+
+---
+
+## 📸 Architecture Overview
+[ Internet ]
+     │
+     ▼
+🌐 Application Gateway (WAF v2)
+     │
+     ▼
+🖥️ Private VM (Docker Host)
+ ├── Frontend (React)
+ ├── Backend (Java API)
+ └── PostgreSQL Database (Private Endpoint)
+All components live inside an Azure VNet for complete isolation and monitored through Azure Monitor.
+
+---
+
+## 🌟 Key Highlights
+
+✅ Full 3-Tier Architecture (Frontend, Backend, Database)
+✅ Private Networking with Secure Access
+✅ Automated Infrastructure (Terraform)
+✅ Containerized Application (Docker)
+✅ End-to-End CI/CD (GitHub Actions)
+✅ Real-World Cloud Implementation (Azure)
+
+---
+
+## 🧠 Tech Stack
+Category	Tools
+☁️ Cloud	Microsoft Azure
+🏗️ IaC	Terraform
+🐳 Containers	Docker, Docker Compose
+⚙️ CI/CD	GitHub Actions
+💻 Frontend	React + Vite
+🔧 Backend	Java (Maven) / Node.js
+🗄️ Database	PostgreSQL / Azure SQL
+🔒 Security	Private Subnet + WAF v2
+📊 Monitoring	Azure Monitor + Application Insights
+👩🏻‍💻 About the Developer
+
+---
+
+## 👤 Teaf Alahmadi
+Cloud & DevOps Engineer | Azure Enthusiast 
+
+✨ “Automate everything, deploy securely, and keep learning!” 🚀
