@@ -108,6 +108,17 @@ following modern DevOps best practices.
 
 ---
 
+## 🔒 Security Design
+
+- All internal resources communicate via **Private IPs**
+- **No direct public access** to the VM
+- **Application Gateway (WAF v2)** acts as the single controlled ingress point  
+- Adheres to **Zero-Trust Networking** best practices  
+
+---
+
+---
+
 ## 📸 Architecture Overview
 
 ```text
